@@ -24,11 +24,7 @@
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 [cc-url]: https://github.com/EngosSoftware/kivi/blob/main/CODE_OF_CONDUCT.md
-
 [kivi]: https://github.com/EngosSoftware/kivi
-[headless_chrome]: https://crates.io/crates/headless_chrome
-[html2pdf]: https://crates.io/crates/html2pdf
-[report a bug]: https://github.com/EngosSoftware/kivi/issues
 
 ## Overview
 
