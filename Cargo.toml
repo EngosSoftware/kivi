@@ -2,7 +2,7 @@
 name = "kivi"
 version = "1.0.0"
 authors = ["Dariusz Depta <depta@engos.de>"]
-description = "A key-value pair with the key and value on different lines"
+description = "KIVI | Key-value pair with key and value in separate lines"
 documentation = "https://docs.rs/kivi"
 repository = "https://github.com/EngosSoftware/kivi.git"
 keywords = ["key", "value", "pair", "double", "line"]
