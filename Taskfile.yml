@@ -14,6 +14,11 @@ tasks:
     cmds:
       - cmd: cargo clean
 
+  cov:
+    desc: Generates code coverage
+    cmds:
+      - cmd: ./coverage.sh
+
   clippy:
     desc: Runs clippy for all targets
     cmds:

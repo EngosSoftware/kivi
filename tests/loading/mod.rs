@@ -1,3 +1,4 @@
+mod test_load_from_file;
 mod test_load_from_string;
 
 use kivi::load_from_string;
