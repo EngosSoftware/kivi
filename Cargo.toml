@@ -1,6 +1,6 @@
 [package]
 name = "kivi"
-version = "0.0.1"
+version = "1.0.0"
 authors = ["Dariusz Depta <depta@engos.de>"]
 description = "A key-value pair with the key and value on different lines"
 documentation = "https://docs.rs/kivi"
@@ -9,5 +9,3 @@ keywords = ["key", "value", "pair", "double", "line"]
 categories = ["encoding"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
-
-[dependencies]
