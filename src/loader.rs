@@ -1,4 +1,4 @@
-//! # Loader
+//! # Implementation of KIVI deserialization functions
 
 use crate::model::KeyValuePairs;
 use std::path::Path;
@@ -75,6 +75,18 @@ macro_rules! clear_buffer {
   }};
 }
 
+/// Loads key-value pairs from string in KIVI format.
+///
+/// # Examples
+///
+/// ```
+/// use kivi::load_from_string;
+///
+/// let kvp = load_from_string("a\nb\nc\nd\n");
+/// for key in kvp.values() {
+///   assert!(key == "b" || key == "d");
+/// }
+/// ```
 pub fn load_from_string(input: &str) -> KeyValuePairs {
   let mut output = KeyValuePairs::new();
   let mut state = State::Key;
@@ -113,6 +125,22 @@ pub fn load_from_string(input: &str) -> KeyValuePairs {
   output
 }
 
+/// Loads key-value pairs from KIVI file.
+///
+/// # Examples
+///
+/// ```
+/// use std::io;
+/// use kivi::load_from_file;
+///
+/// fn main() -> io::Result<()> {
+///     let kvp = load_from_file("./tests/loading/data/properties.kivi")?;
+///     let default_host = "0.0.0.0".to_string();
+///     let host = kvp.get("host").unwrap_or(&default_host);
+///     println!("host: {}", host);
+///     Ok(())
+/// }
+/// ```
 pub fn load_from_file<P: AsRef<Path>>(path: P) -> io::Result<KeyValuePairs> {
   Ok(load_from_string(&fs::read_to_string(path)?))
 }

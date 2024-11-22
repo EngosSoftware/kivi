@@ -1,3 +1,5 @@
+//! # KIVI format deserializer
+
 mod loader;
 mod model;
 
