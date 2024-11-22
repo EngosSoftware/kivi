@@ -19,9 +19,11 @@
 //! ```
 //!
 //! `host`, `port` and `timeout` are keys; `127.0.0.1`, `54321`, `12ms` are values.
+//!
 //! It is quite similar to properties or INI file that store key-value pair in a single line.
 //!
-//! In KIVI format, the key and/or value may span over multiple lines:
+//! In KIVI format, the key and/or value may span over multiple lines.
+//! Multiple-line keys or values must be enclosed in quotation marks.
 //!
 //! ```text
 //! host
@@ -40,7 +42,6 @@
 //!  directory where the servers
 //!  binary is placed"
 //! ```
-//!
 
 mod loader;
 mod model;
