@@ -1,8 +1,8 @@
 [package]
 name = "kivi"
-version = "0.0.0"
+version = "0.0.1"
 authors = ["Dariusz Depta <depta@engos.de>"]
-description = "A key-value pair with the key and value on different lines."
+description = "A key-value pair with the key and value on different lines"
 documentation = "https://docs.rs/kivi"
 repository = "https://github.com/EngosSoftware/kivi.git"
 keywords = ["key", "value", "pair", "double", "line"]
