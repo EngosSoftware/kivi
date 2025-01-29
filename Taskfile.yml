@@ -15,9 +15,10 @@ tasks:
       - cmd: cargo clean
 
   cov:
-    desc: Generates code coverage
+    desc: Generates code coverage report
     cmds:
-      - cmd: ./coverage.sh
+      - cmd: cargo +nightly llvm-cov --no-cfg-coverage --no-cfg-coverage-nightly --branch --html
+      - cmd: echo -e "\n\e[1;32mOpen coverage report\x3A\e[0m file:///$(pwd)/target/llvm-cov/html/index.html\n"
 
   clippy:
     desc: Runs clippy for all targets
@@ -43,3 +44,8 @@ tasks:
     desc: Runs tests in debug mode
     cmds:
       - cmd: cargo +stable test
+
+  testn:
+    desc: Runs tests in debug mode
+    cmds:
+      - cmd: cargo +stable nextest run
