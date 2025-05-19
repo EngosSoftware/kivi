@@ -42,6 +42,8 @@ pub fn load_from_file<P: AsRef<Path>>(path: P) -> io::Result<KeyValuePairs> {
   Ok(load_from_string(&fs::read_to_string(path)?))
 }
 
+const NEWLINE: char = '\n';
+
 /// Loader states.
 #[derive(Copy, Clone)]
 enum State {
@@ -81,7 +83,7 @@ impl Loader {
             self.marker = ch;
             self.clear_buffer(State::KeyExt);
           }
-          '\n' => self.consume_non_empty_key(),
+          NEWLINE => self.consume_non_empty_key(),
           other => self.consume_char(other),
         },
         State::KeyExt => match ch {
@@ -94,7 +96,7 @@ impl Loader {
             self.marker = ch;
             self.clear_buffer(State::ValueExt);
           }
-          '\n' => self.consume_non_empty_value(),
+          NEWLINE => self.consume_non_empty_value(),
           other => {
             self.consume_char(other);
             if chars.peek().is_none() {
