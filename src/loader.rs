@@ -42,7 +42,14 @@ pub fn load_from_file<P: AsRef<Path>>(path: P) -> io::Result<KeyValuePairs> {
   Ok(load_from_string(&fs::read_to_string(path)?))
 }
 
-const NEWLINE: char = '\n';
+/// Line feed character.
+pub const LF: char = '\n';
+
+/// Carriage return character.
+pub const CR: char = '\r';
+
+/// Empty character (zero).
+pub const NULL: char = 0 as char;
 
 /// Loader states.
 #[derive(Copy, Clone)]
@@ -79,42 +86,61 @@ impl<'a> Loader<'a> {
 
   /// Loads key-value pairs from string.
   fn load(mut self) -> KeyValuePairs {
-    while let Some(ch) = self.chars.next() {
+    loop {
+      // Normalize the newline.
+      let (current_char, next_char) = match (self.next(), self.peek()) {
+        (LF, ch) => (LF, ch),
+        (CR, LF) => (self.next(), self.peek()),
+        (CR, ch) => (LF, ch),
+        (ch1, ch2) => (ch1, ch2),
+      };
+      if current_char == NULL {
+        return self.output;
+      }
       match self.state {
-        State::Key => match ch {
-          ch if self.is_allowed_marker(ch) => {
+        State::Key => match (current_char, next_char) {
+          (ch, _) if self.is_allowed_marker(ch) => {
             self.marker = ch;
             self.clear_buffer(State::KeyExt);
           }
-          NEWLINE => self.consume_non_empty_key(),
-          other => self.consume_char(other),
+          (LF, _) => self.consume_non_empty_key(),
+          (ch, _) => self.consume_char(ch),
         },
-        State::KeyExt => match ch {
-          ch if self.is_marker(ch) => self.consume_key(),
-          '\\' => self.consume_escaped_marker(),
-          other => self.consume_char(other),
+        State::KeyExt => match (current_char, next_char) {
+          (ch, _) if self.is_marker(ch) => self.consume_key(),
+          ('\\', _) => self.consume_escaped_marker(),
+          (ch, _) => self.consume_char(ch),
         },
-        State::Value => match ch {
-          ch if self.is_allowed_marker(ch) => {
+        State::Value => match (current_char, next_char) {
+          (ch, _) if self.is_allowed_marker(ch) => {
             self.marker = ch;
             self.clear_buffer(State::ValueExt);
           }
-          NEWLINE => self.consume_non_empty_value(),
-          other => {
-            self.consume_char(other);
+          (LF, _) => self.consume_non_empty_value(),
+          (ch, _) => {
+            self.consume_char(ch);
             if self.chars.peek().is_none() {
               self.consume_non_empty_value();
             }
           }
         },
-        State::ValueExt => match ch {
-          ch if self.is_marker(ch) => self.consume_value(),
-          '\\' => self.consume_escaped_marker(),
-          other => self.consume_char(other),
+        State::ValueExt => match (current_char, next_char) {
+          (ch, _) if self.is_marker(ch) => self.consume_value(),
+          ('\\', _) => self.consume_escaped_marker(),
+          (ch, _) => self.consume_char(ch),
         },
       }
     }
-    self.output
+  }
+
+  /// Consumes the next character on input.
+  fn next(&mut self) -> char {
+    self.chars.next().unwrap_or(NULL)
+  }
+
+  /// Peeks the next character on input.
+  fn peek(&mut self) -> char {
+    self.chars.peek().cloned().unwrap_or(NULL)
   }
 
   /// Consumes the specified character.
