@@ -8,7 +8,7 @@
 [![MIT licensed][mit-badge]][mit-license-url]
 [![Apache 2.0 licensed][apache-badge]][apache-license-url]
 [![Contributor Covenant][cc-badge]][cc-url]
-![Made by Human][mbh-badge]
+[![Made by Human][mbh-badge]][cc-url]
 
 [crates-badge]: https://img.shields.io/crates/v/kivi.svg
 [crates-url]: https://crates.io/crates/kivi
