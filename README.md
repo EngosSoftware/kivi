@@ -8,6 +8,7 @@
 [![MIT licensed][mit-badge]][mit-license-url]
 [![Apache 2.0 licensed][apache-badge]][apache-license-url]
 [![Contributor Covenant][cc-badge]][cc-url]
+![Made by Human][mbh-badge]
 
 [crates-badge]: https://img.shields.io/crates/v/kivi.svg
 [crates-url]: https://crates.io/crates/kivi
@@ -24,6 +25,7 @@
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 [cc-url]: https://github.com/EngosSoftware/kivi/blob/main/CODE_OF_CONDUCT.md
+[mbh-badge]: https://img.shields.io/badge/made_by-human-f1c40f.svg?labelColor=9b59b6
 [repository-url]: https://github.com/EngosSoftware/kivi
 
 ## Overview
