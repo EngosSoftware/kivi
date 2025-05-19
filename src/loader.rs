@@ -19,7 +19,7 @@ use std::{fs, io};
 /// }
 /// ```
 pub fn load_from_string(input: &str) -> KeyValuePairs {
-  Loader::new().load(input, &['"'])
+  Loader::new(input, &['"']).load()
 }
 
 /// Loads key-value pairs from KIVI file.
@@ -53,33 +53,36 @@ enum State {
   ValueExt,
 }
 
-struct Loader {
+struct Loader<'a> {
   state: State,
   buffer: String,
   key: String,
   marker: char,
+  markers: &'a [char],
+  chars: Peekable<Chars<'a>>,
   output: KeyValuePairs,
 }
 
-impl Loader {
+impl<'a> Loader<'a> {
   /// Created a loader with default settings.
-  fn new() -> Self {
+  fn new(input: &'a str, markers: &'a [char]) -> Self {
     Loader {
       state: State::Key,
       buffer: String::new(),
       key: String::new(),
       marker: 0 as char,
+      markers,
+      chars: input.chars().peekable(),
       output: KeyValuePairs::new(),
     }
   }
 
   /// Loads key-value pairs from string.
-  fn load(mut self, input: &str, markers: &[char]) -> KeyValuePairs {
-    let chars = &mut input.chars().peekable();
-    while let Some(ch) = chars.next() {
+  fn load(mut self) -> KeyValuePairs {
+    while let Some(ch) = self.chars.next() {
       match self.state {
         State::Key => match ch {
-          ch if self.is_allowed_marker(ch, markers) => {
+          ch if self.is_allowed_marker(ch) => {
             self.marker = ch;
             self.clear_buffer(State::KeyExt);
           }
@@ -88,25 +91,25 @@ impl Loader {
         },
         State::KeyExt => match ch {
           ch if self.is_marker(ch) => self.consume_key(),
-          '\\' => self.consume_escaped_marker(chars),
+          '\\' => self.consume_escaped_marker(),
           other => self.consume_char(other),
         },
         State::Value => match ch {
-          ch if self.is_allowed_marker(ch, markers) => {
+          ch if self.is_allowed_marker(ch) => {
             self.marker = ch;
             self.clear_buffer(State::ValueExt);
           }
           NEWLINE => self.consume_non_empty_value(),
           other => {
             self.consume_char(other);
-            if chars.peek().is_none() {
+            if self.chars.peek().is_none() {
               self.consume_non_empty_value();
             }
           }
         },
         State::ValueExt => match ch {
           ch if self.is_marker(ch) => self.consume_value(),
-          '\\' => self.consume_escaped_marker(chars),
+          '\\' => self.consume_escaped_marker(),
           other => self.consume_char(other),
         },
       }
@@ -133,11 +136,11 @@ impl Loader {
     }
   }
 
-  fn consume_escaped_marker(&mut self, chars: &mut Peekable<Chars>) {
-    if let Some(ch) = chars.peek() {
+  fn consume_escaped_marker(&mut self) {
+    if let Some(ch) = self.chars.peek() {
       if *ch == self.marker {
         self.buffer.push(self.marker);
-        chars.next();
+        self.chars.next();
       } else {
         self.buffer.push('\\');
       }
@@ -167,8 +170,8 @@ impl Loader {
   }
 
   /// Returns `true` when specified character is an allowed marker.
-  fn is_allowed_marker(&self, ch: char, markers: &[char]) -> bool {
-    markers.contains(&ch)
+  fn is_allowed_marker(&self, ch: char) -> bool {
+    self.markers.contains(&ch)
   }
 
   /// Returns `true` when specified character is current marker.
