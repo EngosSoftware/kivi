@@ -9,3 +9,7 @@ const FILE_002: &str = "tests/data/data002.kivi";
 const DATA_002: &str = include_str!("data/data002.kivi");
 const FILE_003: &str = "tests/data/data003.kivi";
 const DATA_003: &str = include_str!("data/data003.kivi");
+const FILE_004: &str = "tests/data/data004.kivi";
+const DATA_004: &str = include_str!("data/data004.kivi");
+const FILE_005: &str = "tests/data/data005.kivi";
+const DATA_005: &str = include_str!("data/data005.kivi");
