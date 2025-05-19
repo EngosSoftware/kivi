@@ -84,3 +84,16 @@ fn values_from_file_002_should_work() {
     values.join(",")
   );
 }
+
+#[test]
+fn values_from_file_003_should_work() {
+  let kvp = load_from_string(DATA_003);
+  assert!(!kvp.is_empty());
+  assert_eq!(3, kvp.len());
+  assert_eq!("127.0.0.1", kvp.get("host").unwrap());
+  assert_eq!("54321", kvp.get("port").unwrap());
+  assert_eq!("12ms", kvp.get("timeout").unwrap());
+  let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
+  values.sort();
+  assert_eq!("127.0.0.1,12ms,54321", values.join(","));
+}

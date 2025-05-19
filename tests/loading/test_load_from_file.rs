@@ -26,6 +26,16 @@ fn loading_multi_line_from_file_should_work() {
 }
 
 #[test]
+fn loading_from_file_003_should_work() {
+  let kvp = load_from_file(FILE_003).unwrap();
+  assert!(!kvp.is_empty());
+  assert_eq!(3, kvp.len());
+  assert_eq!("127.0.0.1", kvp.get("host").unwrap());
+  assert_eq!("54321", kvp.get("port").unwrap());
+  assert_eq!("12ms", kvp.get("timeout").unwrap());
+}
+
+#[test]
 fn loading_from_non_existing_file_should_fail() {
   assert!(load_from_file("non-existing.kivi").is_err());
   assert_eq!(
