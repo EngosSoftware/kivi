@@ -30,9 +30,9 @@
 
 ## Overview
 
-KIVI format deserializer.
+**KIVI** format deserializer.
 
-KIVI is a simple text format in which each key and its associated value are stored on separate lines.
+**KIVI** is a simple text format in which each key and its associated value are stored on separate lines.
 While it is not as widely known as formats like JSON or INI, it is straightforward and particularly
 useful in specific contexts where keys or values consist of multiple lines of text.
 
@@ -53,7 +53,7 @@ timeout
 
 It is quite similar to properties or INI file that store key-value pair in a single line.
 
-In KIVI format, keys and values may span over multiple lines.
+In **KIVI** format, keys and values may span over multiple lines.
 Multiple-line keys or values must be enclosed in _quotation markers_.
 The default _quotation marker_ is a **quotation mark** (U+0022).
 
