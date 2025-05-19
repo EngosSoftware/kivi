@@ -54,8 +54,8 @@ timeout
 It is quite similar to properties or INI file that store key-value pair in a single line.
 
 In KIVI format, keys and values may span over multiple lines.
-Multiple-line keys or values must be enclosed in _quotation_ markers.
-The default _quotation_ marker is a **quotation mark** (U+0022).
+Multiple-line keys or values must be enclosed in _quotation markers_.
+The default _quotation marker_ is a **quotation mark** (U+0022).
 
 Example configuration file with key and value spanning over multiple lines is shown below:
 
