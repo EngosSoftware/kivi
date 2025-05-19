@@ -23,3 +23,12 @@ fn loading_multi_line_from_file_should_work() {
     kvp.get("General\n description").unwrap()
   );
 }
+
+#[test]
+fn loading_from_non_existing_file_should_fail() {
+  assert!(load_from_file("./tests/loading/data/non-existing.kivi").is_err());
+  assert_eq!(
+    "No such file or directory (os error 2)",
+    load_from_file("./tests/loading/data/non-existing.kivi").unwrap_err().to_string()
+  )
+}

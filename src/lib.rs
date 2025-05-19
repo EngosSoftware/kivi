@@ -43,6 +43,10 @@
 //!  binary is placed"
 //! ```
 
+#![deny(missing_docs)]
+#![deny(rustdoc::broken_intra_doc_links)]
+#![deny(rustdoc::missing_crate_level_docs)]
+
 mod loader;
 mod model;
 
