@@ -107,8 +107,7 @@ impl<'a> Loader<'a> {
           (ch, _) => self.consume_char(ch),
         },
         State::KeyExt => match (current_char, next_char) {
-          (ch, _) if self.is_marker(ch) => self.consume_key(),
-          ('\\', _) => self.consume_escaped_marker(),
+          (ch, LF) if self.is_marker(ch) => self.consume_key(),
           (ch, _) => self.consume_char(ch),
         },
         State::Value => match (current_char, next_char) {
@@ -125,8 +124,7 @@ impl<'a> Loader<'a> {
           }
         },
         State::ValueExt => match (current_char, next_char) {
-          (ch, _) if self.is_marker(ch) => self.consume_value(),
-          ('\\', _) => self.consume_escaped_marker(),
+          (ch, LF) if self.is_marker(ch) => self.consume_value(),
           (ch, _) => self.consume_char(ch),
         },
       }
@@ -159,19 +157,6 @@ impl<'a> Loader<'a> {
     self.buffer = self.buffer.trim().to_string();
     if !self.buffer.is_empty() {
       self.consume_key();
-    }
-  }
-
-  fn consume_escaped_marker(&mut self) {
-    if let Some(ch) = self.chars.peek() {
-      if *ch == self.marker {
-        self.buffer.push(self.marker);
-        self.chars.next();
-      } else {
-        self.buffer.push('\\');
-      }
-    } else {
-      self.buffer.push('\\');
     }
   }
 
