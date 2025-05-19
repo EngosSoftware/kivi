@@ -25,7 +25,7 @@
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 [cc-url]: https://github.com/EngosSoftware/kivi/blob/main/CODE_OF_CONDUCT.md
-[mbh-badge]: https://img.shields.io/badge/made_by-human-f1c40f.svg?labelColor=9b59b6
+[mbh-badge]: https://img.shields.io/badge/MADE_BY-HUMAN-922b21.svg
 [repository-url]: https://github.com/EngosSoftware/kivi
 
 ## Overview
