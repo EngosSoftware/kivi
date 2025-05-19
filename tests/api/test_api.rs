@@ -45,11 +45,12 @@ fn getting_values_should_work() {
 fn values_from_properties_file_should_work() {
   let kvp = load_from_string(DATA_PROPERTIES);
   assert!(!kvp.is_empty());
-  assert_eq!(1, kvp.len());
+  assert_eq!(2, kvp.len());
   assert_eq!("127.0.0.1", kvp.get("host").unwrap());
+  assert_eq!("Multiline\n description", kvp.get("description").unwrap());
   let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
   values.sort();
-  assert_eq!("127.0.0.1", values.join(","));
+  assert_eq!("127.0.0.1,Multiline\n description", values.join(","));
 }
 
 #[test]

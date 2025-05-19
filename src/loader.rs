@@ -8,21 +8,40 @@ use std::{fs, io};
 
 /// Loads key-value pairs from string in KIVI format.
 ///
+/// The default multiline key or value marker is a quotation mark (U+0022).
+///
 /// # Examples
 ///
 /// ```
 /// use kivi::load_from_string;
 ///
-/// let kvp = load_from_string("a\nb\nc\nd\n");
-/// for key in kvp.values() {
-///   assert!(key == "b" || key == "d");
+/// let kvp = load_from_string(r#"
+///    a
+///    b
+///    c
+///    d
+/// "#);
+/// for key in kvp.keys() {
+///   assert!(key == "a" || key == "c");
 /// }
+/// for value in kvp.values() {
+///   assert!(value == "b" || value == "d");
+/// }
+///
+/// let kvp = load_from_string(r#"
+///    a
+///    "b1
+///     b2"
+/// "#);
+/// assert_eq!("b1\n    b2", kvp.get("a").unwrap());
 /// ```
 pub fn load_from_string(input: &str) -> KeyValuePairs {
   Loader::new(input, &['"']).load()
 }
 
 /// Loads key-value pairs from KIVI file.
+///
+/// The default multiline key or value marker is a quotation mark (U+0022).
 ///
 /// # Examples
 ///
@@ -34,7 +53,10 @@ pub fn load_from_string(input: &str) -> KeyValuePairs {
 ///     let kvp = load_from_file("./tests/data/properties.kivi")?;
 ///     let default_host = "0.0.0.0".to_string();
 ///     let host = kvp.get("host").unwrap_or(&default_host);
-///     println!("host: {}", host);
+///     assert_eq!("127.0.0.1", host);
+///     let default_description = "".to_string();
+///     let description = kvp.get("description").unwrap_or(&default_description);
+///     assert_eq!("Multiline\n description", description);
 ///     Ok(())
 /// }
 /// ```
