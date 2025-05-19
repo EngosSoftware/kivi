@@ -6,9 +6,8 @@ use std::path::Path;
 use std::str::Chars;
 use std::{fs, io};
 
-/// Loads key-value pairs from string in KIVI format.
-///
-/// The default multiline key or value marker is a quotation mark (U+0022).
+/// Loads key-value pairs from string in KIVI format using
+/// quotation mark (U+0022) as a default multiline marker.
 ///
 /// # Examples
 ///
@@ -37,6 +36,16 @@ use std::{fs, io};
 /// ```
 pub fn load_from_string(input: &str) -> KeyValuePairs {
   Loader::new(input, &['"']).load()
+}
+
+/// Loads key-value pairs from string in KIVI format using
+/// custom multiline markers.
+///
+/// # Examples
+///
+///
+pub fn load_from_string_markers(input: &str, markers: &[char]) -> KeyValuePairs {
+  Loader::new(input, markers).load()
 }
 
 /// Loads key-value pairs from KIVI file.

@@ -229,3 +229,34 @@ fn _0035() {
   // Multiline key with multiline value not ended with newline after marker.
   eqn("\"key\"\n \"value\" \r", r#"{}"#);
 }
+
+#[test]
+fn _0036() {
+  // Custom multiline marker.
+  eqnm("`key`\n`value`\n", r#"{"key": "value"}"#, &['`']);
+}
+
+#[test]
+fn _0037() {
+  // Custom multiline markers inside key and value.
+  eqnm("`key`key`\n`value`value`\n", r#"{"key`key": "value`value"}"#, &['`']);
+}
+
+#[test]
+fn _0038() {
+  // Multiple custom multiline markers.
+  eqnm("@key@\n`value`\n", r#"{"key": "value"}"#, &['`', '@']);
+}
+
+#[test]
+fn _0039() {
+  // Multiple custom multiline markers inside key and value, line ending: \n
+  eqnm("@key@key@\n#value#value#\n", r#"{"key@key": "value#value"}"#, &['@', '#']);
+}
+
+#[ignore]
+#[test]
+fn _0040() {
+  // Multiple custom multiline markers inside key and value, line ending: \r
+  eqnm("@key@key@\r#value#value#\r", r#"{"key@key": "value#value"}"#, &['@', '#']);
+}
