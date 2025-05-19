@@ -32,10 +32,9 @@
 
 KIVI format deserializer.
 
-KIVI is a simple text format for storing keys with associated values on separate lines.
-While it is not as widely known as formats like JSON or INI, it is straightforward
-and particularly useful in specific contexts where keys or values consist
-of multiple lines of text.
+KIVI is a simple text format in which each key and its associated value are stored on separate lines.
+While it is not as widely known as formats like JSON or INI, it is straightforward and particularly
+useful in specific contexts where keys or values consist of multiple lines of text.
 
 An example of a configuration file in KIVI format:
 
@@ -54,10 +53,13 @@ timeout
 
 It is quite similar to properties or INI file that store key-value pair in a single line.
 
-In KIVI format, the key and/or value may span over multiple lines.
-Multiple-line keys or values must be enclosed in quotation marks.
+In KIVI format, keys and values may span over multiple lines.
+Multiple-line keys or values must be enclosed in _quotation_ markers.
+The default _quotation_ marker is a **quotation mark** (U+0022).
 
- ```text
+Example configuration file with key and value spanning over multiple lines is shown below:
+
+```text
 host
 127.0.0.1
 
