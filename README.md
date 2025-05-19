@@ -73,7 +73,7 @@ timeout
  description"
 "This configuration file
  should be placed in the same
- directory where the servers
+ directory where the server's
  binary is placed"
 ```
 

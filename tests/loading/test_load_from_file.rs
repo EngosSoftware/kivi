@@ -19,7 +19,7 @@ fn loading_multi_line_from_file_should_work() {
   assert_eq!("54321", kvp.get("port").unwrap());
   assert_eq!("12ms", kvp.get("timeout").unwrap());
   assert_eq!(
-    "This configuration file\n should be placed in the same\n directory where the servers\n binary is placed.",
+    "This configuration file\n should be placed in the same\n directory where the server's\n binary is placed.",
     kvp.get("General\n description").unwrap()
   );
 }
