@@ -1,8 +1,9 @@
+use super::*;
 use kivi::load_from_file;
 
 #[test]
 fn loading_from_file_should_work() {
-  let kvp = load_from_file("./tests/loading/data/data01.kivi").unwrap();
+  let kvp = load_from_file(FILE_001).unwrap();
   assert!(!kvp.is_empty());
   assert_eq!(3, kvp.len());
   assert_eq!("127.0.0.1", kvp.get("host").unwrap());
@@ -12,7 +13,7 @@ fn loading_from_file_should_work() {
 
 #[test]
 fn loading_multi_line_from_file_should_work() {
-  let kvp = load_from_file("./tests/loading/data/data02.kivi").unwrap();
+  let kvp = load_from_file(FILE_002).unwrap();
   assert!(!kvp.is_empty());
   assert_eq!(4, kvp.len());
   assert_eq!("127.0.0.1", kvp.get("host").unwrap());
@@ -26,9 +27,9 @@ fn loading_multi_line_from_file_should_work() {
 
 #[test]
 fn loading_from_non_existing_file_should_fail() {
-  assert!(load_from_file("./tests/loading/data/non-existing.kivi").is_err());
+  assert!(load_from_file("non-existing.kivi").is_err());
   assert_eq!(
     "No such file or directory (os error 2)",
-    load_from_file("./tests/loading/data/non-existing.kivi").unwrap_err().to_string()
+    load_from_file("../data/non-existing.kivi").unwrap_err().to_string()
   )
 }

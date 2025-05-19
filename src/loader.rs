@@ -134,7 +134,7 @@ pub fn load_from_string(input: &str) -> KeyValuePairs {
 /// use kivi::load_from_file;
 ///
 /// fn main() -> io::Result<()> {
-///     let kvp = load_from_file("./tests/loading/data/properties.kivi")?;
+///     let kvp = load_from_file("./tests/data/properties.kivi")?;
 ///     let default_host = "0.0.0.0".to_string();
 ///     let host = kvp.get("host").unwrap_or(&default_host);
 ///     println!("host: {}", host);

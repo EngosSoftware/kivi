@@ -1,6 +1,7 @@
 mod test_load_from_file;
 mod test_load_from_string;
 
+use super::*;
 use kivi::load_from_string;
 use std::collections::BTreeMap;
 
