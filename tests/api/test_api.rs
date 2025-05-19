@@ -130,4 +130,7 @@ fn values_from_file_006_should_work() {
   let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
   values.sort();
   assert_eq!("\"port\" number,the name of the \"host\",this \"is\" timeout", values.join(","));
+  let mut keys = kvp.keys().map(|s| s.to_owned()).collect::<Vec<String>>();
+  keys.sort();
+  assert_eq!("ho\\st,port,time\"out", keys.join(","));
 }

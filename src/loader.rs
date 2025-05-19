@@ -54,10 +54,10 @@ macro_rules! consume_non_empty_value {
 }
 
 macro_rules! consume_escaped_quotation_mark {
-  ($chars:ident, $buffer:ident) => {{
+  ($chars:ident, $buffer:ident, $marker:ident) => {{
     if let Some(ch) = $chars.peek() {
-      if *ch == '"' {
-        $buffer.push('"');
+      if *ch == $marker {
+        $buffer.push($marker);
         $chars.next();
       } else {
         $buffer.push('\\');
@@ -88,41 +88,7 @@ macro_rules! clear_buffer {
 /// }
 /// ```
 pub fn load_from_string(input: &str) -> KeyValuePairs {
-  let mut output = KeyValuePairs::new();
-  let mut state = State::Key;
-  let mut buffer = String::new();
-  let mut key = String::new();
-  let mut chars = input.chars().peekable();
-  while let Some(ch) = chars.next() {
-    match state {
-      State::Key => match ch {
-        '"' => clear_buffer!(buffer, state, State::KeyExt),
-        '\n' => consume_non_empty_key!(key, buffer, state),
-        other => consume_char!(buffer, other),
-      },
-      State::KeyExt => match ch {
-        '"' => consume_key!(key, buffer, state),
-        '\\' => consume_escaped_quotation_mark!(chars, buffer),
-        other => consume_char!(buffer, other),
-      },
-      State::Value => match ch {
-        '"' => clear_buffer!(buffer, state, State::ValueExt),
-        '\n' => consume_non_empty_value!(output, key, buffer, state),
-        other => {
-          consume_char!(buffer, other);
-          if chars.peek().is_none() {
-            consume_non_empty_value!(output, key, buffer, state);
-          }
-        }
-      },
-      State::ValueExt => match ch {
-        '"' => consume_value!(output, key, buffer, state),
-        '\\' => consume_escaped_quotation_mark!(chars, buffer),
-        other => consume_char!(buffer, other),
-      },
-    }
-  }
-  output
+  load(input, &['"'])
 }
 
 /// Loads key-value pairs from KIVI file.
@@ -143,4 +109,55 @@ pub fn load_from_string(input: &str) -> KeyValuePairs {
 /// ```
 pub fn load_from_file<P: AsRef<Path>>(path: P) -> io::Result<KeyValuePairs> {
   Ok(load_from_string(&fs::read_to_string(path)?))
+}
+
+/// Loads key-value pairs from string.
+fn load(input: &str, markers: &[char]) -> KeyValuePairs {
+  let mut output = KeyValuePairs::new();
+  let mut state = State::Key;
+  let mut buffer = String::new();
+  let mut key = String::new();
+  let mut chars = input.chars().peekable();
+  let mut marker = 0 as char;
+  while let Some(ch) = chars.next() {
+    match state {
+      State::Key => match ch {
+        ch if is_quotation_marker(ch, markers) => {
+          marker = ch;
+          clear_buffer!(buffer, state, State::KeyExt);
+        }
+        '\n' => consume_non_empty_key!(key, buffer, state),
+        other => consume_char!(buffer, other),
+      },
+      State::KeyExt => match ch {
+        ch if ch == marker => consume_key!(key, buffer, state),
+        '\\' => consume_escaped_quotation_mark!(chars, buffer, marker),
+        other => consume_char!(buffer, other),
+      },
+      State::Value => match ch {
+        ch if is_quotation_marker(ch, markers) => {
+          marker = ch;
+          clear_buffer!(buffer, state, State::ValueExt);
+        }
+        '\n' => consume_non_empty_value!(output, key, buffer, state),
+        other => {
+          consume_char!(buffer, other);
+          if chars.peek().is_none() {
+            consume_non_empty_value!(output, key, buffer, state);
+          }
+        }
+      },
+      State::ValueExt => match ch {
+        ch if ch == marker => consume_value!(output, key, buffer, state),
+        '\\' => consume_escaped_quotation_mark!(chars, buffer, marker),
+        other => consume_char!(buffer, other),
+      },
+    }
+  }
+  output
+}
+
+/// Returns `true` when specified character is a quotation marker.
+fn is_quotation_marker(ch: char, markers: &[char]) -> bool {
+  markers.contains(&ch)
 }

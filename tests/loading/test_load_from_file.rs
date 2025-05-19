@@ -60,7 +60,7 @@ fn loading_from_file_006_should_work() {
   let kvp = load_from_file(FILE_006).unwrap();
   assert!(!kvp.is_empty());
   assert_eq!(3, kvp.len());
-  assert_eq!("the name of the \"host\"", kvp.get("host").unwrap());
+  assert_eq!("the name of the \"host\"", kvp.get("ho\\st").unwrap());
   assert_eq!("\"port\" number", kvp.get("port").unwrap());
   assert_eq!("this \"is\" timeout", kvp.get("time\"out").unwrap());
 }
