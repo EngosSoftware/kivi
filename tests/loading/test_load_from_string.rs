@@ -181,3 +181,27 @@ fn _0027() {
     r#"{" a1\n      a2\n      a3 ": " b1 b2\n      b3 b4 ", " c1 c2 c3\n      c4\n      c5": "d1\n    d2 d3\n    d4"}"#,
   );
 }
+
+#[test]
+fn _0028() {
+  // Multiline key is not closed.
+  eqn("\"key", r#"{}"#);
+}
+
+#[test]
+fn _0029() {
+  // Multiline value is not closed.
+  eqn("\"key\"\n\"value", r#"{}"#);
+}
+
+#[test]
+fn _0030() {
+  // Multiline key and non multiline value.
+  eqn("\"key\"\nvalue", r#"{"key": "value"}"#);
+}
+
+// #[test]
+// fn _0031() {
+//   // Multiline key and non multiline value.
+//   eqn("\"key\"  value", r#"{}"#);
+// }

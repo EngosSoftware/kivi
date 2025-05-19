@@ -86,7 +86,7 @@ impl Loader {
         },
         State::KeyExt => match ch {
           ch if self.is_marker(ch) => self.consume_key(),
-          '\\' => self.consume_escaped_quotation_mark(chars),
+          '\\' => self.consume_escaped_marker(chars),
           other => self.consume_char(other),
         },
         State::Value => match ch {
@@ -104,7 +104,7 @@ impl Loader {
         },
         State::ValueExt => match ch {
           ch if self.is_marker(ch) => self.consume_value(),
-          '\\' => self.consume_escaped_quotation_mark(chars),
+          '\\' => self.consume_escaped_marker(chars),
           other => self.consume_char(other),
         },
       }
@@ -131,7 +131,7 @@ impl Loader {
     }
   }
 
-  fn consume_escaped_quotation_mark(&mut self, chars: &mut Peekable<Chars>) {
+  fn consume_escaped_marker(&mut self, chars: &mut Peekable<Chars>) {
     if let Some(ch) = chars.peek() {
       if *ch == self.marker {
         self.buffer.push(self.marker);
