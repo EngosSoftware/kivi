@@ -9,3 +9,6 @@ keywords = ["key", "value", "pair", "separate", "lines"]
 categories = ["encoding"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
+
+[dependencies]
+normalized-line-endings = "0.0.1"

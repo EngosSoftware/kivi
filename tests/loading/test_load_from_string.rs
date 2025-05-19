@@ -254,9 +254,14 @@ fn _0039() {
   eqnm("@key@key@\n#value#value#\n", r#"{"key@key": "value#value"}"#, &['@', '#']);
 }
 
-#[ignore]
 #[test]
 fn _0040() {
   // Multiple custom multiline markers inside key and value, line ending: \r
   eqnm("@key@key@\r#value#value#\r", r#"{"key@key": "value#value"}"#, &['@', '#']);
+}
+
+#[test]
+fn _0041() {
+  // Multiple custom multiline markers inside key and value, line ending: \r\n
+  eqnm("@key@key@\r\n#value#value#\r\n", r#"{"key@key": "value#value"}"#, &['@', '#']);
 }

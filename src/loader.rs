@@ -1,9 +1,8 @@
 //! # Implementation of KIVI deserialization functions
 
 use crate::model::KeyValuePairs;
-use std::iter::Peekable;
+use normalized_line_endings::Normalized;
 use std::path::Path;
-use std::str::Chars;
 use std::{fs, io};
 
 /// Loads key-value pairs from string in KIVI format using
@@ -76,9 +75,6 @@ pub fn load_from_file<P: AsRef<Path>>(path: P) -> io::Result<KeyValuePairs> {
 /// Line feed character.
 pub const LF: char = '\n';
 
-/// Carriage return character.
-pub const CR: char = '\r';
-
 /// Empty character (zero).
 pub const NULL: char = 0 as char;
 
@@ -97,7 +93,7 @@ struct Loader<'a> {
   key: String,
   marker: char,
   markers: &'a [char],
-  chars: Peekable<Chars<'a>>,
+  input: &'a str,
   output: KeyValuePairs,
 }
 
@@ -110,24 +106,20 @@ impl<'a> Loader<'a> {
       key: String::new(),
       marker: 0 as char,
       markers,
-      chars: input.chars().peekable(),
+      input,
       output: KeyValuePairs::new(),
     }
   }
 
   /// Loads key-value pairs from string.
   fn load(mut self) -> KeyValuePairs {
+    let mut chars = self.input.chars().normalized().peekable();
     loop {
-      // Normalize the newline.
-      let (current_char, next_char) = match (self.next(), self.peek()) {
-        (LF, ch) => (LF, ch),
-        (CR, LF) => (self.next(), self.peek()),
-        (CR, ch) => (LF, ch),
-        (ch1, ch2) => (ch1, ch2),
-      };
+      let current_char = chars.next().unwrap_or(NULL);
       if current_char == NULL {
         return self.output;
       }
+      let next_char = chars.peek().cloned().unwrap_or(NULL);
       match self.state {
         State::Key => match (current_char, next_char) {
           (ch, _) if self.is_allowed_marker(ch) => {
@@ -147,9 +139,9 @@ impl<'a> Loader<'a> {
             self.clear_buffer(State::ValueExt);
           }
           (LF, _) => self.consume_non_empty_value(),
-          (ch, _) => {
-            self.consume_char(ch);
-            if self.chars.peek().is_none() {
+          (ch1, ch2) => {
+            self.consume_char(ch1);
+            if ch2 == NULL {
               self.consume_non_empty_value();
             }
           }
@@ -160,16 +152,6 @@ impl<'a> Loader<'a> {
         },
       }
     }
-  }
-
-  /// Consumes the next character on input.
-  fn next(&mut self) -> char {
-    self.chars.next().unwrap_or(NULL)
-  }
-
-  /// Peeks the next character on input.
-  fn peek(&mut self) -> char {
-    self.chars.peek().cloned().unwrap_or(NULL)
   }
 
   /// Consumes the specified character.
