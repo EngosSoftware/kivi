@@ -123,3 +123,11 @@ fn values_from_file_005_should_work() {
   values.sort();
   assert_eq!("127.0.0.1,12ms,54321", values.join(","));
 }
+
+#[test]
+fn values_from_file_006_should_work() {
+  let kvp = load_from_string(DATA_006);
+  let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
+  values.sort();
+  assert_eq!("\"port\" number,the name of the \"host\",this \"is\" timeout", values.join(","));
+}

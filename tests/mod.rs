@@ -13,3 +13,5 @@ const FILE_004: &str = "tests/data/data004.kivi";
 const DATA_004: &str = include_str!("data/data004.kivi");
 const FILE_005: &str = "tests/data/data005.kivi";
 const DATA_005: &str = include_str!("data/data005.kivi");
+const FILE_006: &str = "tests/data/data006.kivi";
+const DATA_006: &str = include_str!("data/data006.kivi");
