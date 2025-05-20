@@ -50,5 +50,5 @@
 mod loader;
 mod model;
 
-pub use loader::{load_from_file, load_from_string, load_from_string_markers};
+pub use loader::{load_from_file, load_from_file_markers, load_from_string, load_from_string_markers};
 pub use model::KeyValuePairs;

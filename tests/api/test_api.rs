@@ -1,5 +1,5 @@
 use super::*;
-use kivi::load_from_string;
+use kivi::{load_from_string, load_from_string_markers};
 
 #[test]
 fn getting_empty_value_should_work() {
@@ -48,9 +48,27 @@ fn values_from_properties_file_should_work() {
   assert_eq!(2, kvp.len());
   assert_eq!("127.0.0.1", kvp.get("host").unwrap());
   assert_eq!("Multiline\n description", kvp.get("description").unwrap());
+  let mut keys = kvp.keys().map(|s| s.to_owned()).collect::<Vec<String>>();
+  keys.sort();
+  assert_eq!("description,host", keys.join(","));
   let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
   values.sort();
   assert_eq!("127.0.0.1,Multiline\n description", values.join(","));
+}
+
+#[test]
+fn values_from_issues_file_should_work() {
+  let kvp = load_from_string_markers(DATA_ISSUES, &['@', '~', '^']);
+  assert!(!kvp.is_empty());
+  assert_eq!(2, kvp.len());
+  assert_eq!("Build a separate\n server", kvp.get("Issue1").unwrap());
+  assert_eq!("Develop a new\n compiler", kvp.get("Issue2").unwrap());
+  let mut keys = kvp.keys().map(|s| s.to_owned()).collect::<Vec<String>>();
+  keys.sort();
+  assert_eq!("Issue1,Issue2", keys.join(","));
+  let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
+  values.sort();
+  assert_eq!("Build a separate\n server,Develop a new\n compiler", values.join(","));
 }
 
 #[test]

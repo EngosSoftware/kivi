@@ -10,6 +10,8 @@ use std::{fs, io};
 ///
 /// # Examples
 ///
+/// ## Single line keys and values
+///
 /// ```
 /// use kivi::load_from_string;
 ///
@@ -19,12 +21,27 @@ use std::{fs, io};
 ///    c
 ///    d
 /// "#);
-/// for key in kvp.keys() {
-///   assert!(key == "a" || key == "c");
-/// }
-/// for value in kvp.values() {
-///   assert!(value == "b" || value == "d");
-/// }
+/// assert_eq!("b", kvp.get("a").unwrap());
+/// assert_eq!("d", kvp.get("c").unwrap());
+/// ```
+///
+/// ## Multiline key
+///
+/// ```  
+/// use kivi::load_from_string;
+///
+/// let kvp = load_from_string(r#"
+///    "a1
+///     a2"
+///    b
+/// "#);
+/// assert_eq!("b", kvp.get("a1\n    a2").unwrap());
+/// ```
+///
+/// ## Multiline value
+///
+/// ```  
+/// use kivi::load_from_string;
 ///
 /// let kvp = load_from_string(r#"
 ///    a
@@ -32,6 +49,20 @@ use std::{fs, io};
 ///     b2"
 /// "#);
 /// assert_eq!("b1\n    b2", kvp.get("a").unwrap());
+/// ```
+///
+/// ## Multiline key and value
+///
+/// ```  
+/// use kivi::load_from_string;
+///
+/// let kvp = load_from_string(r#"
+///    "a1
+///     a2"
+///    "b1
+///     b2"
+/// "#);
+/// assert_eq!("b1\n    b2", kvp.get("a1\n    a2").unwrap());
 /// ```
 pub fn load_from_string(input: &str) -> KeyValuePairs {
   Loader::new(input, &['"']).load()
@@ -42,12 +73,67 @@ pub fn load_from_string(input: &str) -> KeyValuePairs {
 ///
 /// # Examples
 ///
+/// ## Single line keys and values
 ///
+/// ```
+/// use kivi::load_from_string_markers;
+///
+/// let kvp = load_from_string_markers(r#"
+///    a
+///    b
+///    c
+///    d
+/// "#, &['$']);
+/// assert_eq!("b", kvp.get("a").unwrap());
+/// assert_eq!("d", kvp.get("c").unwrap());
+/// ```
+///
+/// ## Multiline key
+///
+/// ```  
+/// use kivi::load_from_string_markers;
+///
+/// let kvp = load_from_string_markers(r#"
+///    @a1
+///     a2@
+///    b
+/// "#, &['@']);
+/// assert_eq!("b", kvp.get("a1\n    a2").unwrap());
+/// ```
+///
+/// ## Multiline value
+///
+/// ```  
+/// use kivi::load_from_string_markers;
+///
+/// let kvp = load_from_string_markers(r#"
+///    a
+///    `b1
+///     b2`
+/// "#, &['`']);
+/// assert_eq!("b1\n    b2", kvp.get("a").unwrap());
+/// ```
+///
+/// ## Multiline key and value
+///
+/// **NOTE**: You can use different markers for keys and values.
+///
+/// ```  
+/// use kivi::load_from_string_markers;
+///
+/// let kvp = load_from_string_markers(r#"
+///    *a1
+///     a2*
+///    ^b1
+///     b2^
+/// "#, &['^', '*']);
+/// assert_eq!("b1\n    b2", kvp.get("a1\n    a2").unwrap());
+/// ```
 pub fn load_from_string_markers(input: &str, markers: &[char]) -> KeyValuePairs {
   Loader::new(input, markers).load()
 }
 
-/// Loads key-value pairs from KIVI file.
+/// Loads key-value pairs from file in KIVI format.
 ///
 /// The default multiline key or value marker is a quotation mark (U+0022).
 ///
@@ -70,6 +156,26 @@ pub fn load_from_string_markers(input: &str, markers: &[char]) -> KeyValuePairs 
 /// ```
 pub fn load_from_file<P: AsRef<Path>>(path: P) -> io::Result<KeyValuePairs> {
   Ok(load_from_string(&fs::read_to_string(path)?))
+}
+
+/// Loads key-value pairs from file in KIVI format using
+/// custom multiline markers.
+///
+/// # Examples
+///
+/// ```
+/// use std::io;
+/// use kivi::load_from_file_markers;
+///
+/// fn main() -> io::Result<()> {
+///     let kvp = load_from_file_markers("./tests/data/issues.kivi", &['@','~','^'])?;
+///     assert_eq!("Build a separate\n server", kvp.get("Issue1").unwrap());
+///     assert_eq!("Develop a new\n compiler", kvp.get("Issue2").unwrap());
+///     Ok(())
+/// }
+/// ```
+pub fn load_from_file_markers<P: AsRef<Path>>(path: P, markers: &[char]) -> io::Result<KeyValuePairs> {
+  Ok(load_from_string_markers(&fs::read_to_string(path)?, markers))
 }
 
 /// Line feed character.
