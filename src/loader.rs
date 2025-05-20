@@ -287,7 +287,9 @@ impl<'a> Loader<'a> {
   }
 
   fn consume_value(&mut self) {
-    self.output.kv.insert(self.key.clone(), self.buffer.clone());
+    self.output.key_value_pairs.insert(self.key.clone(), self.buffer.clone());
+    self.output.ordered_keys.push(self.key.clone());
+    self.output.ordered_values.push(self.buffer.clone());
     self.key.clear();
     self.buffer.clear();
     self.state = State::Key;

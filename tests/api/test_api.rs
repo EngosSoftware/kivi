@@ -54,6 +54,15 @@ fn values_from_properties_file_should_work() {
   let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
   values.sort();
   assert_eq!("127.0.0.1,Multiline\n description", values.join(","));
+  assert_eq!("host,description", kvp.ordered_keys().map(|s| s.to_owned()).collect::<Vec<String>>().join(","));
+  assert_eq!(
+    "127.0.0.1,Multiline\n description",
+    kvp.ordered_values().map(|s| s.to_owned()).collect::<Vec<String>>().join(",")
+  );
+  assert_eq!(
+    "host:127.0.0.1,description:Multiline\n description",
+    kvp.ordered_key_value_pairs().map(|(k, v)| format!("{}:{}", k, v)).collect::<Vec<String>>().join(",")
+  );
 }
 
 #[test]
@@ -69,6 +78,15 @@ fn values_from_issues_file_should_work() {
   let mut values = kvp.values().map(|s| s.to_owned()).collect::<Vec<String>>();
   values.sort();
   assert_eq!("Build a separate\n server,Develop a new\n compiler", values.join(","));
+  assert_eq!("Issue1,Issue2", kvp.ordered_keys().map(|s| s.to_owned()).collect::<Vec<String>>().join(","));
+  assert_eq!(
+    "Build a separate\n server,Develop a new\n compiler",
+    kvp.ordered_values().map(|s| s.to_owned()).collect::<Vec<String>>().join(",")
+  );
+  assert_eq!(
+    "Issue1:Build a separate\n server,Issue2:Develop a new\n compiler",
+    kvp.ordered_key_value_pairs().map(|(k, v)| format!("{}:{}", k, v)).collect::<Vec<String>>().join(",")
+  );
 }
 
 #[test]
