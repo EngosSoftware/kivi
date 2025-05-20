@@ -43,8 +43,12 @@
 //!  binary is placed"
 //! ```
 
+#![deny(missing_docs)]
+#![deny(rustdoc::broken_intra_doc_links)]
+#![deny(rustdoc::missing_crate_level_docs)]
+
 mod loader;
 mod model;
 
-pub use loader::{load_from_file, load_from_string};
+pub use loader::{load_from_file, load_from_file_markers, load_from_string, load_from_string_markers};
 pub use model::KeyValuePairs;

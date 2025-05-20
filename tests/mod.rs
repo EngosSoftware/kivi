@@ -1,2 +1,20 @@
+mod api;
+mod cloning;
 mod loading;
-mod test_cloning;
+
+const FILE_PROPERTIES: &str = "tests/data/properties.kivi";
+const DATA_PROPERTIES: &str = include_str!("data/properties.kivi");
+const FILE_ISSUES: &str = "tests/data/issues.kivi";
+const DATA_ISSUES: &str = include_str!("data/issues.kivi");
+const FILE_001: &str = "tests/data/data001.kivi";
+const DATA_001: &str = include_str!("data/data001.kivi");
+const FILE_002: &str = "tests/data/data002.kivi";
+const DATA_002: &str = include_str!("data/data002.kivi");
+const FILE_003: &str = "tests/data/data003.kivi";
+const DATA_003: &str = include_str!("data/data003.kivi");
+const FILE_004: &str = "tests/data/data004.kivi";
+const DATA_004: &str = include_str!("data/data004.kivi");
+const FILE_005: &str = "tests/data/data005.kivi";
+const DATA_005: &str = include_str!("data/data005.kivi");
+const FILE_006: &str = "tests/data/data006.kivi";
+const DATA_006: &str = include_str!("data/data006.kivi");

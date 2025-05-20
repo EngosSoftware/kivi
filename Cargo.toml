@@ -1,11 +1,20 @@
 [package]
 name = "kivi"
-version = "1.0.1"
+version = "1.1.0"
 authors = ["Dariusz Depta <depta@engos.de>"]
 description = "KIVI | Key-value pair with key and value in separate lines"
 documentation = "https://docs.rs/kivi"
 repository = "https://github.com/EngosSoftware/kivi.git"
-keywords = ["key", "value", "pair", "double", "line"]
+keywords = ["key", "value", "pair", "separate", "lines"]
 categories = ["encoding"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
+exclude = [
+    "rustfmt.toml",
+    "Taskfile.yml",
+    ".github/",
+    ".gitignore"
+]
+
+[dependencies]
+normalized-line-endings = "0.0.7"

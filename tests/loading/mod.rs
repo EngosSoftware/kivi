@@ -1,7 +1,8 @@
 mod test_load_from_file;
 mod test_load_from_string;
 
-use kivi::load_from_string;
+use super::*;
+use kivi::{load_from_string, load_from_string_markers};
 use std::collections::BTreeMap;
 
 fn eq(input: &str, expected: &str) {
@@ -26,4 +27,11 @@ fn eq(input: &str, expected: &str) {
 
 fn eqn(input: &str, expected: &str) {
   assert_eq!(format!("{:?}", load_from_string(input).into_iter().collect::<BTreeMap<String, String>>()), expected);
+}
+
+fn eqnm(input: &str, expected: &str, markers: &[char]) {
+  assert_eq!(
+    format!("{:?}", load_from_string_markers(input, markers).into_iter().collect::<BTreeMap<String, String>>()),
+    expected
+  );
 }

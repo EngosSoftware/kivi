@@ -8,6 +8,7 @@
 [![MIT licensed][mit-badge]][mit-license-url]
 [![Apache 2.0 licensed][apache-badge]][apache-license-url]
 [![Contributor Covenant][cc-badge]][cc-url]
+[![Made by Human][mbh-badge]][cc-url]
 
 [crates-badge]: https://img.shields.io/crates/v/kivi.svg
 [crates-url]: https://crates.io/crates/kivi
@@ -24,16 +25,16 @@
 [coverage-badge]: https://img.shields.io/badge/Code%20coverage-100%25-green.svg
 [cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 [cc-url]: https://github.com/EngosSoftware/kivi/blob/main/CODE_OF_CONDUCT.md
+[mbh-badge]: https://img.shields.io/badge/Made_by-HUMAN-d35400.svg
 [repository-url]: https://github.com/EngosSoftware/kivi
 
 ## Overview
 
-KIVI format deserializer.
+**KIVI** format deserializer.
 
-KIVI is a simple text format for storing keys with associated values on separate lines.
-While it is not as widely known as formats like JSON or INI, it is straightforward
-and particularly useful in specific contexts where keys or values consist
-of multiple lines of text.
+**KIVI** is a simple text format in which each key and its associated value are stored on separate lines.
+While it is not as widely known as formats like JSON or INI, it is straightforward and particularly
+useful in specific contexts where keys or values consist of multiple lines of text.
 
 An example of a configuration file in KIVI format:
 
@@ -52,10 +53,13 @@ timeout
 
 It is quite similar to properties or INI file that store key-value pair in a single line.
 
-In KIVI format, the key and/or value may span over multiple lines.
-Multiple-line keys or values must be enclosed in quotation marks.
+In **KIVI** format, keys and values may span over multiple lines.
+Multiple-line keys or values must be enclosed in _quotation markers_.
+The default _quotation marker_ is a **quotation mark** (U+0022).
 
- ```text
+Example configuration file with key and value spanning over multiple lines is shown below:
+
+```text
 host
 127.0.0.1
 
@@ -69,7 +73,7 @@ timeout
  description"
 "This configuration file
  should be placed in the same
- directory where the servers
+ directory where the server's
  binary is placed"
 ```
 
@@ -87,3 +91,7 @@ at your option.
 Any contributions to [**kivi**][repository-url] are greatly appreciated.
 All contributions intentionally submitted for inclusion in the work by you,
 shall be dual licensed as above, without any additional terms or conditions.
+
+---
+
+Brought to you with 💙 by [Engos Software](https://engos.de)
