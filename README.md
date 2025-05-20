@@ -51,10 +51,6 @@ timeout
 
 `host`, `port` and `timeout` are keys, `127.0.0.1`, `54321`, `12ms` are values.
 
-In **KIVI** format, keys and values may span over multiple lines.
-Multiple line keys or values must be enclosed in _quotation markers_.
-The default _quotation marker_ is a **quotation mark** (U+0022).
-
 In **KIVI** format, keys and values may span multiple lines.
 Multi-line keys or values must be enclosed in quotation markers.
 The default quotation marker is the quotation mark `"` (U+0022).
