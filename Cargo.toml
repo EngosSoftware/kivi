@@ -11,4 +11,4 @@ license = "MIT OR Apache-2.0"
 edition = "2021"
 
 [dependencies]
-normalized-line-endings = "0.0.3"
+normalized-line-endings = "0.0.7"

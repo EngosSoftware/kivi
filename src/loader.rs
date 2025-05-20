@@ -2,7 +2,6 @@
 
 use crate::model::KeyValuePairs;
 use normalized_line_endings::Normalized;
-use std::iter::Peekable;
 use std::path::Path;
 use std::{fs, io};
 
@@ -35,7 +34,7 @@ use std::{fs, io};
 /// assert_eq!("b1\n    b2", kvp.get("a").unwrap());
 /// ```
 pub fn load_from_string(input: &str) -> KeyValuePairs {
-  Loader::new(input.chars().normalized().peekable(), &['"']).load()
+  Loader::new(input, &['"']).load()
 }
 
 /// Loads key-value pairs from string in KIVI format using
@@ -45,7 +44,7 @@ pub fn load_from_string(input: &str) -> KeyValuePairs {
 ///
 ///
 pub fn load_from_string_markers(input: &str, markers: &[char]) -> KeyValuePairs {
-  Loader::new(input.chars().normalized().peekable(), markers).load()
+  Loader::new(input, markers).load()
 }
 
 /// Loads key-value pairs from KIVI file.
@@ -88,44 +87,39 @@ enum State {
   ValueExt,
 }
 
-struct Loader<'a, I>
-where
-  I: Iterator<Item = char>,
-{
+struct Loader<'a> {
   state: State,
   buffer: String,
   key: String,
   marker: char,
   markers: &'a [char],
-  chars: Peekable<I>,
+  input: &'a str,
   output: KeyValuePairs,
 }
 
-impl<'a, I> Loader<'a, I>
-where
-  I: Iterator<Item = char>,
-{
+impl<'a> Loader<'a> {
   /// Created a loader with default settings.
-  fn new(chars: Peekable<I>, markers: &'a [char]) -> Self {
+  fn new(input: &'a str, markers: &'a [char]) -> Self {
     Loader {
       state: State::Key,
       buffer: String::new(),
       key: String::new(),
       marker: 0 as char,
       markers,
-      chars,
+      input,
       output: KeyValuePairs::new(),
     }
   }
 
   /// Loads key-value pairs from string.
   fn load(mut self) -> KeyValuePairs {
+    let mut chars = self.input.chars().normalized().peekable();
     loop {
-      let current_char = self.chars.next().unwrap_or(NULL);
+      let current_char = chars.next().unwrap_or(NULL);
       if current_char == NULL {
         return self.output;
       }
-      let next_char = self.chars.peek().cloned().unwrap_or(NULL);
+      let next_char = chars.peek().cloned().unwrap_or(NULL);
       match self.state {
         State::Key => match (current_char, next_char) {
           (ch, _) if self.is_allowed_marker(ch) => {
