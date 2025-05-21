@@ -1,7 +1,7 @@
 //! # Implementation of KIVI deserialization functions
 
 use crate::model::KeyValuePairs;
-use normalized_line_endings::Normalized;
+use normalized_line_endings::{Normalized, LF};
 use std::path::Path;
 use std::{fs, io};
 
@@ -177,9 +177,6 @@ pub fn load_from_file<P: AsRef<Path>>(path: P) -> io::Result<KeyValuePairs> {
 pub fn load_from_file_markers<P: AsRef<Path>>(path: P, markers: &[char]) -> io::Result<KeyValuePairs> {
   Ok(load_from_string_markers(&fs::read_to_string(path)?, markers))
 }
-
-/// Line feed character.
-pub const LF: char = '\n';
 
 /// Empty character (zero).
 pub const NULL: char = 0 as char;
