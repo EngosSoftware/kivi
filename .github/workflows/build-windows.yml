@@ -20,4 +20,6 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: x86_64-pc-windows-msvc
+      - run: cargo clippy --all-targets
+      - run: cargo test
       - run: cargo +stable build --release --target=x86_64-pc-windows-msvc
