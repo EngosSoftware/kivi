@@ -4,13 +4,13 @@ version = 4
 
 [[package]]
 name = "kivi"
-version = "1.2.0"
+version = "1.2.1"
 dependencies = [
  "normalized-line-endings",
 ]
 
 [[package]]
 name = "normalized-line-endings"
-version = "1.0.0"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4902f6d3c72504a4e23abd019898fcf7e96d831651edf1d161c0ce67ba5b83d1"
+checksum = "3012bd63feb1fe7c44b37d2829a151f43797edfa0adf287ea252018a9f8f17a1"

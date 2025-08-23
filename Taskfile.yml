@@ -12,7 +12,7 @@ tasks:
   clean:
     desc: Cleans all targets
     cmds:
-      - cmd: cargo clean
+      - cmd: cargo +stable clean
 
   clippy:
     desc: Runs clippy for all targets
@@ -20,19 +20,39 @@ tasks:
       - cmd: cargo +stable clippy --all-targets
 
   cov:
-    desc: Generates code coverage report
+    desc: Generates code coverage report in text format
     cmds:
-      - cmd: cargo llvm-cov clean
-      - cmd: cargo llvm-cov --no-cfg-coverage
-      - cmd: cargo llvm-cov report --html
-      - cmd: cargo my llvmCodeCoverageReportLink
+      - cmd: cargo +stable llvm-cov clean
+      - cmd: cargo +stable llvm-cov --no-cfg-coverage
+
+  cov-html:
+    desc: Generates code coverage report in HTML format
+    cmds:
+      - cmd: cargo +stable llvm-cov clean
+      - cmd: cargo +stable llvm-cov --no-cfg-coverage --html --open
+
+  cov-badge:
+    desc: Generates the detailed code coverage badge
+    cmds:
+      - cmd: cargo +stable llvm-cov clean
+      - cmd: cargo +stable llvm-cov --no-cfg-coverage --json --summary-only | coverio
 
   doc:
+    desc: Generates documentation
+    cmds:
+      - cmd: cargo +stable doc
+
+  doc-private:
     desc: Generates documentation
     cmds:
       - cmd: cargo +stable doc --document-private-items
 
   doc-open:
+    desc: Generates documentation and opens in browser
+    cmds:
+      - cmd: cargo +stable doc --open
+
+  doc-private-open:
     desc: Generates documentation and opens in browser
     cmds:
       - cmd: cargo +stable doc --open --document-private-items

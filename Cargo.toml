@@ -1,8 +1,8 @@
 [package]
 name = "kivi"
-version = "1.2.0"
+version = "1.2.1"
 authors = ["Dariusz Depta <depta@engos.de>"]
-description = "KIVI | Key-value pair with key and value in separate lines"
+description = "Key-value pair with key and value in separate lines"
 documentation = "https://docs.rs/kivi"
 repository = "https://github.com/EngosSoftware/kivi.git"
 keywords = ["key", "value", "pair", "separate", "lines"]
@@ -14,8 +14,9 @@ exclude = [
     "Taskfile.yml",
     ".github/",
     ".gitignore",
-    "NOTES_AT_FUTURE_ME.md"
+    "NOTES_AT_FUTURE_ME.md",
+    "CODE_OF_CONDUCT.md"
 ]
 
 [dependencies]
-normalized-line-endings = "1.0.0"
+normalized-line-endings = "1.0.1"
