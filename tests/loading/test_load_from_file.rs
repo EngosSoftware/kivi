@@ -95,6 +95,7 @@ fn loading_from_file_006_should_work() {
   assert_eq!("this \"is\" timeout", kvp.get("time\"out").unwrap());
 }
 
+#[cfg(not(target_os = "windows"))]
 #[test]
 fn loading_from_non_existing_file_should_fail() {
   assert!(load_from_file("non-existing.kivi").is_err());
@@ -104,11 +105,32 @@ fn loading_from_non_existing_file_should_fail() {
   )
 }
 
+#[cfg(target_os = "windows")]
+#[test]
+fn loading_from_non_existing_file_should_fail() {
+  assert!(load_from_file("non-existing.kivi").is_err());
+  assert_eq!(
+    "The system cannot find the path specified. (os error 3)",
+    load_from_file("../data/non-existing.kivi").unwrap_err().to_string()
+  )
+}
+
+#[cfg(not(target_os = "windows"))]
 #[test]
 fn loading_from_non_existing_file_with_markers_should_fail() {
   assert!(load_from_file_markers("non-existing.kivi", &['@']).is_err());
   assert_eq!(
     "No such file or directory (os error 2)",
+    load_from_file_markers("../data/non-existing.kivi", &['@']).unwrap_err().to_string()
+  )
+}
+
+#[cfg(target_os = "windows")]
+#[test]
+fn loading_from_non_existing_file_with_markers_should_fail() {
+  assert!(load_from_file_markers("non-existing.kivi", &['@']).is_err());
+  assert_eq!(
+    "The system cannot find the path specified. (os error 3)",
     load_from_file_markers("../data/non-existing.kivi", &['@']).unwrap_err().to_string()
   )
 }
