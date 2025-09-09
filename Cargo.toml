@@ -15,7 +15,8 @@ exclude = [
     ".github/",
     ".gitignore",
     "NOTES_AT_FUTURE_ME.md",
-    "CODE_OF_CONDUCT.md"
+    "CODE_OF_CONDUCT.md",
+    "CITATION.cff"
 ]
 
 [dependencies]
