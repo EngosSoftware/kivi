@@ -11,6 +11,6 @@ dependencies = [
 
 [[package]]
 name = "normalized-line-endings"
-version = "1.0.1"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3012bd63feb1fe7c44b37d2829a151f43797edfa0adf287ea252018a9f8f17a1"
+checksum = "48c50a99c44f38341323345fe8e2e48949f22c6093590fe95d6be63c82ff1d39"

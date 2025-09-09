@@ -19,4 +19,4 @@ exclude = [
 ]
 
 [dependencies]
-normalized-line-endings = "1.0.1"
+normalized-line-endings = "1.0.3"
