@@ -1,6 +1,6 @@
 [package]
 name = "kivi"
-version = "1.2.1"
+version = "1.2.2"
 authors = ["Dariusz Depta <depta@engos.de>"]
 description = "Key-value pair with key and value in separate lines"
 documentation = "https://docs.rs/kivi"
