@@ -1,7 +1,7 @@
 # kivi
 
 [![Crates.io][crates-badge]][crates-url]
-![Code coverage][coverage-badge]
+[![Code coverage][cov-badge-kivi]][cov-url]
 ![build Linux][build-badge-linux]
 ![build Windows][build-badge-windows]
 ![build MacOs][build-badge-macos]
@@ -9,7 +9,7 @@
 [![MIT licensed][mit-badge]][mit-license-url]
 [![Apache 2.0 licensed][apache-badge]][apache-license-url]
 [![Contributor Covenant][cc-badge]][cc-url]
-[![Made by Human][mbh-badge]][cc-url]
+[![Made by Human][made-by-human-badge]][made-by-human-url]
 
 [crates-badge]: https://img.shields.io/crates/v/kivi.svg
 [crates-url]: https://crates.io/crates/kivi
@@ -24,10 +24,12 @@
 [build-badge-windows]: https://github.com/EngosSoftware/kivi/actions/workflows/build-windows.yml/badge.svg
 [build-badge-macos]: https://github.com/EngosSoftware/kivi/actions/workflows/build-macos.yml/badge.svg
 [build-badge-macos-arm64]: https://github.com/EngosSoftware/kivi/actions/workflows/build-macos-arm64.yml/badge.svg
-[coverage-badge]: https://img.shields.io/badge/coverage-100%25%20%E2%94%82%20100%25%20%E2%94%82%20100%25-21b577.svg
-[cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
+[cov-url]: https://crates.io/crates/coverio
+[cov-badge-kivi]: https://img.shields.io/badge/cov-100%25-21b577.svg
+[cc-badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-blue.svg
 [cc-url]: https://github.com/EngosSoftware/kivi/blob/main/CODE_OF_CONDUCT.md
-[mbh-badge]: https://img.shields.io/badge/Made_by-HUMAN-d35400.svg
+[made-by-human-badge]: https://img.shields.io/badge/Made_by-HUMAN-red.svg
+[made-by-human-url]: https://github.com/DariuszDepta
 [repository-url]: https://github.com/EngosSoftware/kivi
 
 **Key-value pair with key and value in separate lines**
